@@ -1,0 +1,140 @@
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PASTI BERHASIL!!!</title>
+        <link rel="canonical" href="https://jaksa-agung-medan.github.io/portal-media/">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                background-color: #f7f7f7;
+                padding: 20px;
+            }
+            
+            .editable-container {
+                text-align: center;
+                max-width: 600px;
+                width: 100%;
+                padding: 40px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .editable-text {
+                font-size: 3.5rem;
+                font-weight: bold;
+                color: #333;
+                min-height: 120px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                border: 2px dashed #ddd;
+                border-radius: 8px;
+                cursor: text;
+                transition: all 0.3s;
+                word-break: break-word;
+                outline: none;
+            }
+            
+            .editable-text:focus {
+                border-color: #000000;
+                background-color: #f9f9f9;
+                box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+            }
+            
+            .instructions {
+                margin-top: 30px;
+                color: #ff0000;
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .highlight {
+                background-color: #ffeb3b;
+                padding: 2px 5px;
+                border-radius: 3px;
+                font-weight: bold;
+            }
+            
+            @media (max-width: 1980px) {
+                .editable-text {
+                    font-size: 2.8rem;
+                    min-height: 500px;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .editable-text {
+                    font-size: 2.2rem;
+                    min-height: 80px;
+                }
+                
+                .editable-container {
+                    padding: 100px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+            <a href="https://jaksa-agung-medan.github.io/portal-media/" id="editable-text">PASTI BERHASIL!!!</a>
+            
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const editableText = document.getElementById('editable-text');
+                
+                // Fokus ke teks saat halaman dimuat
+                editableText.focus();
+                
+                // Simpan perubahan teks ke localStorage
+                editableText.addEventListener('input', function() {
+                    localStorage.setItem('kamu-aku-text', this.innerHTML);
+                });
+                
+                // Coba muat teks yang sudah disimpan sebelumnya
+                const savedText = localStorage.getItem('kamu-aku-text');
+                if (savedText && savedText.trim() !== '') {
+                    editableText.innerHTML = savedText;
+                }
+                
+                // Atur kursor di akhir teks saat diklik
+                editableText.addEventListener('click', function() {
+                    // Biarkan kursor di posisi yang diklik
+                    if (window.getSelection && document.createRange) {
+                        const range = document.createRange();
+                        const sel = window.getSelection();
+                        
+                        // Hanya atur jika tidak ada teks yang dipilih
+                        if (sel.rangeCount === 0) {
+                            range.setStart(editableText, 1);
+                            range.collapse(true);
+                            sel.removeAllRanges();
+                            sel.addRange(range);
+                        }
+                    }
+                });
+                
+                // Prevent paste formatting
+                editableText.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+                    document.execCommand('insertText', false, text);
+                });
+            });
+        </script>
+    </body>
+    </html>
